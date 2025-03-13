@@ -14,9 +14,9 @@ public class Product {
     }
 
     public void sellProduct(int quantity) {
-        System.out.println("---------------");
-            if (quantity >= this.quantity) {
-                System.out.println("Not enough products to sell");
+        System.out.println("\n---------------");
+            if (quantity >= this.quantity || quantity <= 0) {
+                System.out.println("Not enough products to sell (" + quantity + ")");
             }
             else {
                 this.quantity -= quantity;
@@ -26,14 +26,19 @@ public class Product {
     }
 
     public void addProduct(int quantity) {
-        this.quantity += quantity;
-        System.out.println("---------------");
+        System.out.println("\n---------------");
+        if (quantity <= 0) {
+            System.out.println("Not enough products to add (" + quantity + ")");
+        }
+        else {
+            this.quantity += quantity;
             System.out.println("Added " + quantity + " " + this.name);
+        }
         System.out.println("---------------");
     }
 
     public void showInfo() {
-        System.out.println("---------------");
+        System.out.println("\n---------------");
             System.out.println(this.name + " Information:");
                 System.out.println("Name: " + this.name);
                 System.out.println("Product Code: " + this.productCode);
@@ -42,30 +47,43 @@ public class Product {
                 System.out.println("Expire Date: " + this.expireDate);
         System.out.println("---------------");
     }
-    public void checkExpireDate(String dateDDMMYYYY) {
-        System.out.println("---------------");
-        //2025
-        // && dateDDMMYYYY.charAt(8) >= this.expireDate.charAt(8) && dateDDMMYYYY.charAt(7) >= this.expireDate.charAt(7) && dateDDMMYYYY.charAt(6) >= this.expireDate.charAt(6)
-        if(dateDDMMYYYY.charAt(9) >= this.expireDate.charAt(9)) {
-            if(dateDDMMYYYY.charAt(8) >= this.expireDate.charAt(8)) {
-                if(dateDDMMYYYY.charAt(7) >= this.expireDate.charAt(7)) {
-                    if(dateDDMMYYYY.charAt(6) >= this.expireDate.charAt(6)) {
 
+    public void checkExpireDate(String dateDDMMYYYY) {
+        System.out.println("\n---------------");
+        int currentYear = Integer.parseInt(dateDDMMYYYY.substring(6, 10));
+        int currentMonth = Integer.parseInt(dateDDMMYYYY.substring(3, 5));
+        int currentDay = Integer.parseInt(dateDDMMYYYY.substring(0, 2));
+
+        int expireYear = Integer.parseInt(this.expireDate.substring(6, 10));
+        int expireMonth = Integer.parseInt(this.expireDate.substring(3, 5));
+        int expireDay = Integer.parseInt(this.expireDate.substring(0, 2));
+
+        if (expireYear <= currentYear) {
+            if (expireYear == currentYear) {
+                if (expireMonth <= currentMonth) {
+                    if (expireMonth == currentMonth) {
+                        if (expireDay >= currentDay) {
+                            System.out.println("Product is valid");
+                        }
+                        else {
+                            System.out.println("Product is expired");
+                        }
+                    }
+                    else {
+                        System.out.println("Product is expired");
                     }
                 }
+                else {
+                    System.out.println("Product is valid");
+                }
             }
-
+            else {
+                System.out.println("Product is expired");
+            }
         }
         else {
-
+            System.out.println("Product is valid");
         }
-
-
-        //if (dateDDMMYYYY.compareTo(this.expireDate) < 0) {
-        //    System.out.println("Product is not expired");
-        //} else {
-        //    System.out.println("Product is expired");
-        //}
         System.out.println("---------------");
     }
 }
